@@ -1,8 +1,10 @@
 {
-  "mission": "Artemis",
-  "astronauts": ["Corneillious", "Jackson"],
   "start": "2026-11-14T14:00:00Z",
-  "end": "2026-12-18T14:05:00Z",
-  "gravity_g": 1.0,
-  "temperature_c": 22
+  "end": "2027-05-13T14:00:00Z",
+  "gravity_g": 0.0,
+  "temperature_c": 22,
+  "humidity": 50,
+  "msv/day": 0.5,
+  "comm_access": true,
+  "mental_health": true
 }
