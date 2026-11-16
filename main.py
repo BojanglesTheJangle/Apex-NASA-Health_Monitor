@@ -154,18 +154,22 @@ def color_handle(gravity_result, temperature_result, humidity_result, rad_result
 
 
 def main():
-
-    while True:
-
+        
         print("\033[2J\033[H", end="")
 
         if mode == "r":
             print("You are in Random mode!\n")
-
-            # randomizes everything (placeholder)
             
-            gravity = 1.00
-            temperature = 27
+            gravity = random.uniform(0.0, 1.2)
+            temperature = random.uniform(10, 35)
+            humidity = random.uniform(15, 85)
+            rad_dose = random.uniform(0.1, 1.8)
+            comms = random.choice([True, False])
+            mental = random.choice([True, False])
+
+            start = datetime.datetime(2026, 1, 1)
+            end = start + datetime.timedelta(days=random.randint(30,365))
+
 
         elif mode == "j":
             print("You are in JSON mode!\n")
@@ -186,11 +190,17 @@ def main():
             comms = data["comm_access"]
             mental = data["mental_health"]
 
-            gravity_result, temp_result, humidity_result, rad_result, comm_result, mental_result, bone_loss, temp_reason, humidity_reason, total_rad = check(gravity, start, end , temperature, humidity, rad_dose, comms, mental)
+        gravity_result, temp_result, humidity_result, rad_result, comm_result, mental_result, bone_loss, temp_reason, humidity_reason, total_rad = check(gravity, start, end , temperature, humidity, rad_dose, comms, mental)
 
-            # changes color depending on class
-            color, temp_color, humid_color, rad_color, comm_color, mental_color = color_handle(gravity_result, temp_result, humidity_result, rad_result, comm_result, mental_result)
-        
+        # changes color depending on class
+        color, temp_color, humid_color, rad_color, comm_color, mental_color = color_handle(gravity_result, temp_result, humidity_result, rad_result, comm_result, mental_result)
+
+        while True:
+            print("\033[2J\033[H", end="")
+
+            print(f"Start: {start.strftime('%Y-%m-%d %H:%M')}")
+            print(f"End: {end.strftime('%Y-%m-%d %H:%M')}")
+            
             selected = questionary.select(
                 "Dashboard",
                 choices=[
@@ -269,7 +279,7 @@ def main():
                 )
                 questionary.press_any_key_to_continue().ask()
 
-            if selected == "temperature":
+            elif selected == "temperature":
                 print_formatted_text(FormattedText([
                     ("class:safe", f"\nTemperature: {temperature}C")
                 ]),
@@ -287,7 +297,7 @@ def main():
                     )
                 questionary.press_any_key_to_continue().ask()
             
-            if selected == "humidity":
+            elif selected == "humidity":
                 print_formatted_text(FormattedText([
                     ("class:safe", f"\nHumidity: {humidity}%")
                 ]),
@@ -305,7 +315,7 @@ def main():
                 )
                 questionary.press_any_key_to_continue().ask()
 
-            if selected == "radiation":
+            elif selected == "radiation":
                 print_formatted_text(FormattedText([
                     ("class:safe", f"\nRadiation : {rad_dose}mSv/day")
                 ]),
@@ -323,21 +333,21 @@ def main():
                 )
                 questionary.press_any_key_to_continue().ask()
 
-            if selected == "communication":
+            elif selected == "communication":
                 print_formatted_text(FormattedText([
                     ("class:safe", f"\nAccess to communication: {comms}")
                 ]),
                 style=custom_style
                 )
                 questionary.press_any_key_to_continue().ask()
-            if selected == "mental":
+            elif selected == "mental":
                 print_formatted_text(FormattedText([
-                    ("class:safe", f"\nDoing well: {comms}")
+                    ("class:safe", f"\nDoing well: {mental}")
                 ]),
                 style=custom_style
                 )
                 questionary.press_any_key_to_continue().ask()
-            if selected == "exit":
+            elif selected == "exit":
                 print("\033[2J\033[H", end="")
                 print("\nBye!\n")
                 break
